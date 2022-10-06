@@ -20,7 +20,17 @@ export default class ColorMixer extends React.Component {
             redVal: 0,
             greenVal: 0,
             blueVal: 0,
+            hint: '',
         }
+    }
+
+    showHint() {
+        this.setState(
+            this.state = {
+                hint: "Hint : "+'xxx'
+                //disini nanti juga setskornya diminus
+            }
+        )
     }
 
     render() {
@@ -74,7 +84,7 @@ export default class ColorMixer extends React.Component {
                             width: 100,
                             height: 100,
                             margin: 10,
-                            backgroundColor: 'rgba('+this.state.redVal+','+this.state.greenVal+','+this.state.blueVal+',1)',
+                            backgroundColor: 'rgba(' + this.state.redVal + ',' + this.state.greenVal + ',' + this.state.blueVal + ',1)',
                             alignSelf: 'center',
                             borderColor: '#000',
                             borderWidth: 2,
@@ -87,9 +97,10 @@ export default class ColorMixer extends React.Component {
                         color: '#265e80',
                         margin: 20,
                         alignSelf: 'center',
-                    }}>Hint: xxx</Text>
+                    }}>{this.state.hint}</Text>
                     <Button
                         title="Show Hint"
+                        onPress={() => { this.showHint() }}
                         buttonStyle={style.btn_style}
                         containerStyle={style.btn_container} />
                 </View>
@@ -187,7 +198,6 @@ export default class ColorMixer extends React.Component {
                 }}>
                     <Button
                         title="Guess Color"
-                        onPress={() => navigation.navigate("Result")}
                         buttonStyle={style.btn_style}
                         containerStyle={style.btn_container} />
                 </View>
