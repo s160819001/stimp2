@@ -6,18 +6,26 @@ import style from "../assets/style";
 
 export default class ColorMixer extends React.Component {
     batas = 255;
-    state = {
-        count: this.batas,
-        oneSecInterval: setInterval(() => {
-            this.setState(
-                this.state = {
-                    count: this.state.count - 1
-                })
-        }, 1000)
-    };
+
+    constructor() {
+        super();
+        this.state = {
+            count: this.batas,
+            oneSecInterval: setInterval(() => {
+                this.setState(
+                    this.state = {
+                        count: this.state.count - 1
+                    })
+            }, 1000),
+            redVal: 0,
+            greenVal: 0,
+            blueVal: 0,
+        }
+    }
 
     render() {
         return (
+            //#region GAMEON
             <View style={style.container}>
                 <View style={style.linear_progress}>
                     <LinearProgress variant='determinate'
@@ -66,7 +74,7 @@ export default class ColorMixer extends React.Component {
                             width: 100,
                             height: 100,
                             margin: 10,
-                            backgroundColor: "red",
+                            backgroundColor: 'rgba('+this.state.redVal+','+this.state.greenVal+','+this.state.blueVal+',1)',
                             alignSelf: 'center',
                             borderColor: '#000',
                             borderWidth: 2,
@@ -85,7 +93,9 @@ export default class ColorMixer extends React.Component {
                         buttonStyle={style.btn_style}
                         containerStyle={style.btn_container} />
                 </View>
+                {/* ---Start Container Slider--- */}
                 <View style={style.container}>
+                    {/* ---Start Red Slider--- */}
                     <View style={style.slider_container}>
                         <Text
                             style={{
@@ -95,18 +105,26 @@ export default class ColorMixer extends React.Component {
                                 alignSelf: 'center',
                             }}
                         >
-                            Red: XXX
+                            Red: {this.state.redVal}
                         </Text>
                         <Slider
+                            value={this.state.value}
                             minimumValue={0}
                             maximumValue={255}
                             step={1}
                             thumbStyle={{
                                 backgroundColor: 'red',
                             }}
+                            onValueChange={(value) => {
+                                this.setState({
+                                    redVal: value
+                                })
+                            }}
 
                         ></Slider>
                     </View>
+                    {/* ---End Red Slider--- */}
+                    {/* ---Start Green Slider--- */}
                     <View style={style.slider_container}>
                         <Text
                             style={{
@@ -116,7 +134,7 @@ export default class ColorMixer extends React.Component {
                                 alignSelf: 'center',
                             }}
                         >
-                            Green: XXX
+                            Green: {this.state.greenVal}
                         </Text>
                         <Slider
                             minimumValue={0}
@@ -125,9 +143,16 @@ export default class ColorMixer extends React.Component {
                             thumbStyle={{
                                 backgroundColor: 'green',
                             }}
+                            onValueChange={(value) => {
+                                this.setState({
+                                    greenVal: value
+                                })
+                            }}
 
                         ></Slider>
                     </View>
+                    {/* ---End Green Slider--- */}
+                    {/* ---Start Blue Slider--- */}
                     <View style={style.slider_container}>
                         <Text
                             style={{
@@ -137,7 +162,7 @@ export default class ColorMixer extends React.Component {
                                 alignSelf: 'center',
                             }}
                         >
-                            Blue: XXX
+                            Blue: {this.state.blueVal}
                         </Text>
                         <Slider
                             minimumValue={0}
@@ -146,19 +171,34 @@ export default class ColorMixer extends React.Component {
                             thumbStyle={{
                                 backgroundColor: 'blue',
                             }}
+                            onValueChange={(value) => {
+                                this.setState({
+                                    blueVal: value
+                                })
+                            }}
 
                         ></Slider>
                     </View>
+                    {/* ---End Blue Slider--- */}
                 </View>
+                {/* ---End Container Slider--- */}
                 <View style={{
-                    bottom:20,
+                    bottom: 20,
                 }}>
                     <Button
                         title="Guess Color"
+                        onPress={() => navigation.navigate("Result")}
                         buttonStyle={style.btn_style}
                         containerStyle={style.btn_container} />
                 </View>
             </View>
+            //#endregion
+
+            //#region GAMEOVER
+            // <View style={style.container}>
+
+            // </View>
+            //#endregion
         )
     }
 }

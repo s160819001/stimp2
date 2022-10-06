@@ -5,7 +5,7 @@ import style from "../assets/style";
 
 export default function HighScore({navigation}) {
     return (
-        <View>
+        <View style={style.container}>
             <Text style={style.text_judul}>High Score</Text>
         </View>
     );
