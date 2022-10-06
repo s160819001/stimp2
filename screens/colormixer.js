@@ -1,5 +1,5 @@
 import { View, } from "react-native";
-import { LinearProgress, Text, Button, } from '@rneui/base';
+import { LinearProgress, Text, Button, Slider } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
 
@@ -20,10 +20,64 @@ export default class ColorMixer extends React.Component {
             <View style={style.container}>
                 <View style={style.linear_progress}>
                     <LinearProgress variant='determinate'
-                        value={1 - (this.state.count / this.batas) + 0.2}
+                        value={1 - (this.state.count / this.batas)}
                         color="primary"
-                        style={style.linear_progress}/>
+                        //warna e mengikuti soal
+                        style={style.linear_progress} />
                     <Text style={style.text_linear_progress}>{toHHMMSS(this.state.count)}</Text>
+                </View>
+                <Text style={style.text_score}>Score: (score di state)</Text>
+                <View style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    alignItems: 'flex-start'
+                }}>
+                    <View style={{
+                        width: '50%',
+                    }}>
+                        <Text style={{
+                            fontSize: 18,
+                            color: '#265e80',
+                            margin: 20,
+                            width: '50%',
+                        }}>Guess this color!<View style={{
+                            width: 100,
+                            height: 100,
+                            margin: 20,
+                            backgroundColor: "#a1346f",
+                        }}></View></Text>
+                    </View>
+                    <View style={{
+                        width: '50%',
+                    }}>
+                        <Text style={{
+                            fontSize: 18,
+                            color: '#265e80',
+                            margin: 20,
+                        }}>Your color</Text><View style={{
+                            width: 100,
+                            height: 100,
+                            margin: 20,
+                            backgroundColor: "red",
+                        }}></View>
+                    </View>
+
+
+
+
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    alignItems: 'flex-start',
+                }}>
+
+                </View>
+                <View>
+                    <Text>Hint: xxx</Text>
+                </View>
+                <View>
+
                 </View>
             </View>
         )

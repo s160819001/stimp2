@@ -4,16 +4,17 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f1dd96',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     text_judul: {
-        fontSize: '28',
+        fontSize: 28,
         fontWeight: 'bold',
         color: '#265e80',
         margin: 20,
+        alignSelf:'center',
     },
     text_body: {
-        fontSize: '18',
+        fontSize: 18,
         color: '#265e80',
         margin: 20,
     },
@@ -23,6 +24,7 @@ export default StyleSheet.create({
     },
     btn_container: {
         width: '90%',
+        alignSelf:'center',
     },
     drawer: {
         flex: 1,
@@ -33,7 +35,7 @@ export default StyleSheet.create({
         height:175,
     },
     text_drawer_header:{
-        fontSize:'28',
+        fontSize:28,
         fontWeight:'bold',
         color:'#f1dd96',
         position:'absolute',
@@ -46,16 +48,22 @@ export default StyleSheet.create({
         bottom:15,
     },
     linear_progress:{
-        height:25,
+        height:30,
         position:'absolute',
         width:'100%',
     },
     text_linear_progress:{
         position:'relative',
         textAlign:'center',
-        marginTop:4,
         color:'#fff',
-        fontSize:'30',
-        fontWeight:'bold',
+        fontSize:24,
+    },
+    text_score:{
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#265e80',
+        marginTop: 30,
+        textAlign:'right',
+        marginRight:10,
     }
 });
