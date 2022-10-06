@@ -23,5 +23,26 @@ export default StyleSheet.create({
     },
     btn_container: {
         width: '90%',
+    },
+    drawer: {
+        flex: 1,
+        backgroundColor: '#f0952a',
+    },
+    drawer_header:{
+        backgroundColor:'#265e80',
+        height:175,
+    },
+    text_drawer_header:{
+        fontSize:'28',
+        fontWeight:'bold',
+        color:'#f1dd96',
+        position:'absolute',
+        bottom:10,
+        left:10,
+    },
+    container_logout:{
+        height:70,
+        marginLeft:30,
+        bottom:15,
     }
 });
