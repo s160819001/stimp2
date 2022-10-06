@@ -1,6 +1,7 @@
 import { View, } from "react-native";
 import { LinearProgress, Text, Button, Slider } from '@rneui/base';
 import React from "react";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import style from "../assets/style";
 
 export default class ColorMixer extends React.Component {
@@ -30,7 +31,8 @@ export default class ColorMixer extends React.Component {
                 <View style={{
                     flexDirection: 'row',
                     flexWrap: 'wrap',
-                    alignItems: 'flex-start'
+                    alignItems: 'flex-start',
+                    marginTop: 20,
                 }}>
                     <View style={{
                         width: '50%',
@@ -38,46 +40,123 @@ export default class ColorMixer extends React.Component {
                         <Text style={{
                             fontSize: 18,
                             color: '#265e80',
-                            margin: 20,
-                            width: '50%',
-                        }}>Guess this color!<View style={{
+                            width: '100%',
+                            textAlign: 'center',
+                        }}>Guess this color!</Text>
+                        <View style={{
                             width: 100,
                             height: 100,
-                            margin: 20,
+                            margin: 10,
                             backgroundColor: "#a1346f",
-                        }}></View></Text>
-                    </View>
-                    <View style={{
-                        width: '50%',
-                    }}>
-                        <Text style={{
-                            fontSize: 18,
-                            color: '#265e80',
-                            margin: 20,
-                        }}>Your color</Text><View style={{
-                            width: 100,
-                            height: 100,
-                            margin: 20,
-                            backgroundColor: "red",
+                            alignSelf: 'center',
+                            borderColor: '#000',
+                            borderWidth: 2,
                         }}></View>
                     </View>
+                    <View style={{
+                        width: '50%',
+                    }}>
+                        <Text style={{
+                            fontSize: 18,
+                            color: '#265e80',
+                            width: '100%',
+                            textAlign: 'center',
+                        }}>Your color</Text>
+                        <View style={{
+                            width: 100,
+                            height: 100,
+                            margin: 10,
+                            backgroundColor: "red",
+                            alignSelf: 'center',
+                            borderColor: '#000',
+                            borderWidth: 2,
+                        }}></View>
+                    </View>
+                </View>
+                <View>
+                    <Text style={{
+                        fontSize: 18,
+                        color: '#265e80',
+                        margin: 20,
+                        alignSelf: 'center',
+                    }}>Hint: xxx</Text>
+                    <Button
+                        title="Show Hint"
+                        buttonStyle={style.btn_style}
+                        containerStyle={style.btn_container} />
+                </View>
+                <View style={style.container}>
+                    <View style={style.slider_container}>
+                        <Text
+                            style={{
+                                fontSize: 18,
+                                color: 'red',
+                                margin: 20,
+                                alignSelf: 'center',
+                            }}
+                        >
+                            Red: XXX
+                        </Text>
+                        <Slider
+                            minimumValue={0}
+                            maximumValue={255}
+                            step={1}
+                            thumbStyle={{
+                                backgroundColor: 'red',
+                            }}
 
+                        ></Slider>
+                    </View>
+                    <View style={style.slider_container}>
+                        <Text
+                            style={{
+                                fontSize: 18,
+                                color: 'green',
+                                margin: 20,
+                                alignSelf: 'center',
+                            }}
+                        >
+                            Green: XXX
+                        </Text>
+                        <Slider
+                            minimumValue={0}
+                            maximumValue={255}
+                            step={1}
+                            thumbStyle={{
+                                backgroundColor: 'green',
+                            }}
 
+                        ></Slider>
+                    </View>
+                    <View style={style.slider_container}>
+                        <Text
+                            style={{
+                                fontSize: 18,
+                                color: 'blue',
+                                margin: 20,
+                                alignSelf: 'center',
+                            }}
+                        >
+                            Blue: XXX
+                        </Text>
+                        <Slider
+                            minimumValue={0}
+                            maximumValue={255}
+                            step={1}
+                            thumbStyle={{
+                                backgroundColor: 'blue',
+                            }}
 
-
+                        ></Slider>
+                    </View>
                 </View>
                 <View style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    alignItems: 'flex-start',
+                    bottom:20,
                 }}>
-
-                </View>
-                <View>
-                    <Text>Hint: xxx</Text>
-                </View>
-                <View>
-
+                    <Button
+                        title="Guess Color"
+                        buttonStyle={style.btn_style}
+                        containerStyle={style.btn_container} />
                 </View>
             </View>
         )

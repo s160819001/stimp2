@@ -33,6 +33,7 @@ export default function App() {
           name="ColorMixer"
           component={ColorMixer}
           options={{
+            title: 'Color Mixer',
             headerStyle: {
               backgroundColor: '#917f54',
             },

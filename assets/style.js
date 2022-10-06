@@ -65,5 +65,8 @@ export default StyleSheet.create({
         marginTop: 30,
         textAlign:'right',
         marginRight:10,
+    },
+    slider_container:{
+        marginHorizontal:20,
     }
 });
