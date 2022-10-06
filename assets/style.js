@@ -44,5 +44,18 @@ export default StyleSheet.create({
         height:70,
         marginLeft:30,
         bottom:15,
+    },
+    linear_progress:{
+        height:25,
+        position:'absolute',
+        width:'100%',
+    },
+    text_linear_progress:{
+        position:'relative',
+        textAlign:'center',
+        marginTop:4,
+        color:'#fff',
+        fontSize:'30',
+        fontWeight:'bold',
     }
 });
