@@ -68,5 +68,10 @@ export default StyleSheet.create({
     },
     slider_container:{
         marginHorizontal:20,
+    },
+    card:{
+        borderRadius:10,
+        backgroundColor:'#f1dd96',
+        
     }
 });
