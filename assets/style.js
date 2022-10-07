@@ -72,6 +72,9 @@ export default StyleSheet.create({
     card:{
         borderRadius:10,
         backgroundColor:'#f1dd96',
-        
+    },
+    dialog:{
+        backgroundColor:'#f1dd96',
+        borderRadius:10,
     }
 });

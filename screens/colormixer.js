@@ -1,10 +1,10 @@
 import { View, } from "react-native";
-import { LinearProgress, Text, Button, Slider } from '@rneui/base';
+import { LinearProgress, Text, Button, Slider, Dialog } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
 
 export default class ColorMixer extends React.Component {
-    batas = 255;
+    batas = 1;
 
     constructor() {
         super();
@@ -23,6 +23,7 @@ export default class ColorMixer extends React.Component {
             greenVal: 0,
             blueVal: 0,
             hint: '',
+            result: false,
         }
     }
 
@@ -37,6 +38,8 @@ export default class ColorMixer extends React.Component {
     }
 
     render() {
+
+        console.log(this.state.result);
         if (this.state.count != 0) {
             return (
                 //#region GAMEON
@@ -208,19 +211,29 @@ export default class ColorMixer extends React.Component {
                 </View>
                 //#endregion
             )
-        } else if (this.state.count == 0) {
+        } else if (this.state.count == 0 && !this.state.result) {
             return (
                 //#region GAMEOVER
                 <Dialog
                     isVisible={true}
+                    overlayStyle={style.dialog}
                 >
                     <Dialog.Title title="GAME OVER" />
                     <Text>Good Game Great Eyes!</Text>
                     <Dialog.Actions>
-                        <Dialog.Button title="SHOW RESULT" onPress={() => console.log('Primary Action Clicked!')} />
+                        <Dialog.Button title="SHOW RESULT" onPress={() => this.setState({
+                            result: true
+                        })} />
                     </Dialog.Actions>
                 </Dialog>
                 //#endregion
+            )
+        } else if (this.state.result==true) {
+            this.props.navigation.setOptions({title:'Result'})
+            return (
+                <View style={style.container}>
+                    
+                </View>
             )
         }
 
