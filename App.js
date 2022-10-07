@@ -69,6 +69,7 @@ export default class App extends Component {
           name="HighScore"
           component={HighScore}
           options={{
+            title: 'High Scores',
             headerStyle: {
               backgroundColor: '#917f54',
             },

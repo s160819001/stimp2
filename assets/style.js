@@ -76,5 +76,9 @@ export default StyleSheet.create({
     dialog:{
         backgroundColor:'#f1dd96',
         borderRadius:10,
+    },
+    img:{
+        width:100,
+        height:100,
     }
 });

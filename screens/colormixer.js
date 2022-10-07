@@ -4,7 +4,7 @@ import React from "react";
 import style from "../assets/style";
 
 export default class ColorMixer extends React.Component {
-    batas = 1;
+    batas = 255;
 
     constructor() {
         super();
@@ -19,17 +19,20 @@ export default class ColorMixer extends React.Component {
                     )
                 }
             }, 1000),
-            redVal: 0,
-            greenVal: 0,
-            blueVal: 0,
+            redVal: 255,
+            greenVal: 255,
+            blueVal: 255,
             hint: '',
             result: false,
+            hintUsed: false,
         }
     }
 
     showHint() {
         this.setState(
             this.state = {
+                hintUsed: true,
+                count: (this.state.count / 2),
                 hint: "Hint : " + 'xxx'
                 //ambil salah satu colorVal dari state soal
                 //disini nanti juga setskornya diminus
@@ -109,7 +112,8 @@ export default class ColorMixer extends React.Component {
                             title="Show Hint"
                             onPress={() => { this.showHint() }}
                             buttonStyle={style.btn_style}
-                            containerStyle={style.btn_container} />
+                            containerStyle={style.btn_container}
+                            disabled={this.state.hintUsed} />
                     </View>
                     {/* ---Start Container Slider--- */}
                     <View style={style.container}>
@@ -126,7 +130,7 @@ export default class ColorMixer extends React.Component {
                                 Red: {this.state.redVal}
                             </Text>
                             <Slider
-                                value={this.state.value}
+                                value={this.state.redVal}
                                 minimumValue={0}
                                 maximumValue={255}
                                 step={1}
@@ -155,6 +159,7 @@ export default class ColorMixer extends React.Component {
                                 Green: {this.state.greenVal}
                             </Text>
                             <Slider
+                                value={this.state.greenVal}
                                 minimumValue={0}
                                 maximumValue={255}
                                 step={1}
@@ -183,6 +188,7 @@ export default class ColorMixer extends React.Component {
                                 Blue: {this.state.blueVal}
                             </Text>
                             <Slider
+                                value={this.state.blueVal}
                                 minimumValue={0}
                                 maximumValue={255}
                                 step={1}
@@ -228,11 +234,37 @@ export default class ColorMixer extends React.Component {
                 </Dialog>
                 //#endregion
             )
-        } else if (this.state.result==true) {
-            this.props.navigation.setOptions({title:'Result'})
+        } else if (this.state.result == true) {
+            this.props.navigation.setOptions({ title: 'Result' })
             return (
                 <View style={style.container}>
-                    
+                    <Text style={style.text_judul}>
+                        Final Score : (ambil dari state)
+                    </Text>
+                    <Text style={style.text_body}>
+                        Total time played : (ambil dari state){'\n'}{'\n'}
+                        Color mixed : (ambil dari state){'\n'}{'\n'}
+                        Average guesses : (ambil dari state){'\n'}{'\n'}
+                        Hints used : (ambil dari state)
+                    </Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-evenly',
+                        marginTop: 15,
+                    }}>
+
+                        <Button title={'HIGH SCORES'}
+                            buttonStyle={style.btn_style}
+                            containerStyle={{ width: '42%', margin: 5 }} />
+
+                        <Button title={'PLAY AGAIN'}
+                            buttonStyle={style.btn_style}
+                            containerStyle={{ width: '42%', margin: 5 }} />
+                    </View>
+                    <Button title={'MAIN MENU'}
+                        buttonStyle={style.btn_style}
+                        containerStyle={style.btn_container} />
                 </View>
             )
         }
