@@ -17,7 +17,7 @@ class Login extends Component {
   }
 
   doLogin = async (username, password) => {
-    if (password == '1234') {
+
       try {
         await AsyncStorage.setItem('username', username);
         alert('login sukses, login tersimpan');
@@ -25,10 +25,7 @@ class Login extends Component {
       } catch (e) {
         // saving error
       }
-    }
-    else {
-      alert('username atau paassword salah')
-    }
+
   }
 
 
