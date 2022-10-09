@@ -35,6 +35,7 @@ export default class ColorMixer extends React.Component {
             skorPenampung:0,
             skor:0,
             tebakan:0,
+            totalTebakan:0,
             numberRed:Math.floor(Math.random() * 255) + 1,
             numberGreen:Math.floor(Math.random() * 255) + 1,
             numberBlue:Math.floor(Math.random() * 255) + 1 ,
@@ -46,6 +47,7 @@ export default class ColorMixer extends React.Component {
 
     answerCheck(){
         this.state.tebakan = this.state.tebakan +1;
+        this.state.totalTebakan = this.state.totalTebakan+1;
         var penampung;
         var total;
         var g;
@@ -60,7 +62,7 @@ export default class ColorMixer extends React.Component {
                 )
                 penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
                 this.state.skorPenampung = penampung;
-                total = this.state.skor + this.state.skorPenampung;
+                total = this.state.skor + this.state.skorPenampung.toFixed(0);
                 no = this.state.nomor +1;
                 this.setState(
                     this.state = {
@@ -120,8 +122,11 @@ export default class ColorMixer extends React.Component {
                 alert("tebakan salah");
             }
             }
+            
         
     }
+
+
 
     showHint() {
         var u = this.state.hintuse +1;
@@ -335,6 +340,7 @@ export default class ColorMixer extends React.Component {
                     <Dialog.Actions>
                         <Dialog.Button title="SHOW RESULT" onPress={() => this.setState({
                             result: true
+                            
                         })} />
                     </Dialog.Actions>
                 </Dialog>
@@ -348,9 +354,9 @@ export default class ColorMixer extends React.Component {
                         Final Score : {this.state.skor}
                     </Text>
                     <Text style={style.text_body}>
-                        Total time played : {this.state.time}{'\n'}{'\n'}
+                        Total time played : {toHHMMSS(this.state.time)}{'\n'}{'\n'}
                         Color mixed : {this.state.nomor}{'\n'}{'\n'}
-                        Average guesses : (ambil dari state){'\n'}{'\n'}
+                        Average guesses : {this.state.totalTebakan / this.state.nomor}{'\n'}{'\n'}
                         Hints used : {this.state.hintuse}
                     </Text>
                     <View style={{
