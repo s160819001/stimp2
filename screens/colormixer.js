@@ -28,7 +28,7 @@ export default class ColorMixer extends React.Component {
             greenVal: 255,
             blueVal: 255,
             hint: '',
-            hintMultiplier:0,
+            hintMultiplier:1,
             guessMultiplier:0,
             result: false,
             hintUsed: false,
@@ -37,27 +37,44 @@ export default class ColorMixer extends React.Component {
             tebakan:0,
             numberRed:Math.floor(Math.random() * 255) + 1,
             numberGreen:Math.floor(Math.random() * 255) + 1,
-            numberBlue:Math.floor(Math.random() * 255) + 1    
+            numberBlue:Math.floor(Math.random() * 255) + 1 ,
+            nomor:0,
+            hintuse:0,
+            average:0
         }
     }
 
     answerCheck(){
         this.state.tebakan = this.state.tebakan +1;
-        let penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
-        let total = this.state.skor + this.state.skorPenampung;
+        var penampung;
+        var total;
+        var g;
+        var no;
+
         if(this.state.tebakan>=5){
             if(this.state.redVal == this.state.numberRed && this.state.greenVal == this.state.numberGreen && this.state.blueVal == this.state.numberBlue){
                 this.setState(
                     this.state = {
                         guessMultiplier:1,
-                        skorPenampung: penampung,
+                    }
+                )
+                penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
+                this.state.skorPenampung = penampung;
+                total = this.state.skor + this.state.skorPenampung;
+                no = this.state.nomor +1;
+                this.setState(
+                    this.state = {
+                        // skorPenampung: penampung,
                         skor: total,
                         count:this.batas,
+                        nomor:no,
                         redVal: 255,
                         greenVal: 255,
                         blueVal: 255,
                         hint: '',
-                        result: false,
+                        skorPenampung:0,
+                        hintMultiplier:1,
+                        guessMultiplier:0,
                         hintUsed: false,
                         tebakan:0,
                         numberRed:Math.floor(Math.random() * 255) + 1,
@@ -71,21 +88,26 @@ export default class ColorMixer extends React.Component {
             }
         }
         else{
-            let g = 5 - this.state.tebakan;
+            
             if(this.state.redVal == this.state.numberRed && this.state.greenVal == this.state.numberGreen && this.state.blueVal == this.state.numberBlue){
-
+                this.state.guessMultiplier = 5 - this.state.tebakan;
+                penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
+                this.state.skorPenampung = penampung;
+                total = this.state.skor + this.state.skorPenampung;
+                no = this.state.nomor +1;
                 this.setState(
                     this.state = {
-                        guessMultiplier:g,
-                        skorPenampung: penampung,
+                        
                         skor: total,
                         count:this.batas,
+                        nomor:no,
                         redVal: 255,
                         greenVal: 255,
                         blueVal: 255,
                         hint: '',
-
-                        result: false,
+                        hintMultiplier:1,
+                        guessMultiplier:0,
+                        skorPenampung:0,
                         hintUsed: false,
                         tebakan:0,
                         numberRed:Math.floor(Math.random() * 255) + 1,
@@ -102,6 +124,7 @@ export default class ColorMixer extends React.Component {
     }
 
     showHint() {
+        var u = this.state.hintuse +1;
         this.setState(
             this.state = {
                 hintUsed: true,
@@ -110,7 +133,8 @@ export default class ColorMixer extends React.Component {
                 //+','+this.state.numberBlue+','+this.state.numberBlue
                 //ambil salah satu colorVal dari state soal
                 //disini nanti juga setskornya diminus
-                hintMultiplier:0.5
+                hintMultiplier:0.5,
+                hintuse:u
             }
         )
     }
@@ -321,13 +345,13 @@ export default class ColorMixer extends React.Component {
             return (
                 <View style={style.container}>
                     <Text style={style.text_judul}>
-                        Final Score : (ambil dari state)
+                        Final Score : {this.state.skor}
                     </Text>
                     <Text style={style.text_body}>
-                        Total time played : (ambil dari state){'\n'}{'\n'}
-                        Color mixed : (ambil dari state){'\n'}{'\n'}
+                        Total time played : {this.state.time}{'\n'}{'\n'}
+                        Color mixed : {this.state.nomor}{'\n'}{'\n'}
                         Average guesses : (ambil dari state){'\n'}{'\n'}
-                        Hints used : (ambil dari state)
+                        Hints used : {this.state.hintuse}
                     </Text>
                     <View style={{
                         flexDirection: 'row',
