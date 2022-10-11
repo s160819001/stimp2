@@ -1,11 +1,11 @@
-import { View, NativeModules} from "react-native";
+import { View, NativeModules } from "react-native";
 import { LinearProgress, Text, Button, Slider, Dialog } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class ColorMixer extends React.Component {
-    batas = 255;
+    batas = 30;
     // qRed = Math.floor(Math.random() * 255) + 1;
     // qBlue = Math.floor(Math.random() * 255) + 1;
     // qGreen = Math.floor(Math.random() * 255) + 1;
@@ -14,13 +14,13 @@ export default class ColorMixer extends React.Component {
         super();
         this.state = {
             count: this.batas,
-            time:0,
+            time: 0,
             oneSecInterval: setInterval(() => {
                 if (this.state.count != 0) {
                     this.setState(
                         this.state = {
                             count: this.state.count - 1,
-                            time:this.state.time+1
+                            time: this.state.time + 1
                         }
                     )
                 }
@@ -29,160 +29,220 @@ export default class ColorMixer extends React.Component {
             greenVal: 255,
             blueVal: 255,
             hint: '',
-            hintMultiplier:1,
-            guessMultiplier:0,
+            hintMultiplier: 1,
+            guessMultiplier: 0,
             result: false,
             hintUsed: false,
-            skorPenampung:0,
-            skor:0,
-            tebakan:0,
-            totalTebakan:0,
-            numberRed:Math.floor(Math.random() * 255) + 1,
-            numberGreen:Math.floor(Math.random() * 255) + 1,
-            numberBlue:Math.floor(Math.random() * 255) + 1 ,
-            nomor:0,
-            hintuse:0,
-            average:0,
+            // skorPenampung: 0,
+            skor: 0,
+            tebakan: 0,
+            totalTebakan: 0,
+            numberRed: Math.floor(Math.random() * 255) + 1,
+            numberGreen: Math.floor(Math.random() * 255) + 1,
+            numberBlue: Math.floor(Math.random() * 255) + 1,
+            nomor: 0,
+            hintuse: 0,
+            average: 0,
             username: global.activeuser
         }
+        console.debug(this.state.numberRed);
+        console.debug(this.state.numberGreen);
+        console.debug(this.state.numberBlue);
     }
 
-    doSave = async(username,skor) => {
+    doSave = async (username, skor) => {
         try {
-            var item = {name:username,score:skor};
+            var item = { name: username, score: skor };
             await AsyncStorage.setItem('result', JSON.stringify(item));
             alert('data berhasil disimpan');
             this.setState({
                 result: true
-                
+
             })
 
-            } catch (e) {
-                // saving error
-            }
-    }
-
-    answerCheck(){
-        this.state.tebakan = this.state.tebakan +1;
-        this.state.totalTebakan = this.state.totalTebakan+1;
-        var penampung;
-        var total;
-        var g;
-        var no;
-
-        if(this.state.tebakan>=5){
-            if(this.state.redVal == this.state.numberRed && this.state.greenVal == this.state.numberGreen && this.state.blueVal == this.state.numberBlue){
-                this.setState(
-                    this.state = {
-                        guessMultiplier:1,
-                    }
-                )
-                penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
-                this.state.skorPenampung = penampung;
-                total = this.state.skor + this.state.skorPenampung.toFixed(0);
-                no = this.state.nomor +1;
-                this.setState(
-                    this.state = {
-                        // skorPenampung: penampung,
-                        skor: total,
-                        count:this.batas,
-                        nomor:no,
-                        redVal: 255,
-                        greenVal: 255,
-                        blueVal: 255,
-                        hint: '',
-                        skorPenampung:0,
-                        hintMultiplier:1,
-                        guessMultiplier:0,
-                        hintUsed: false,
-                        tebakan:0,
-                        numberRed:Math.floor(Math.random() * 255) + 1,
-                        numberGreen:Math.floor(Math.random() * 255) + 1,
-                        numberBlue:Math.floor(Math.random() * 255) + 1
-                    }
-                )
-            }
-            else{
-                alert("tebakan salah 2");
-            }
+        } catch (e) {
+            // saving error
         }
-        else{
-            
-            if(this.state.redVal == this.state.numberRed && this.state.greenVal == this.state.numberGreen && this.state.blueVal == this.state.numberBlue){
-                this.state.guessMultiplier = 5 - this.state.tebakan;
-                penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
-                this.state.skorPenampung = penampung;
-                total = this.state.skor + this.state.skorPenampung;
-                no = this.state.nomor +1;
-                this.setState(
-                    this.state = {
-                        
-                        skor: total,
-                        count:this.batas,
-                        nomor:no,
-                        redVal: 255,
-                        greenVal: 255,
-                        blueVal: 255,
-                        hint: '',
-                        hintMultiplier:1,
-                        guessMultiplier:0,
-                        skorPenampung:0,
-                        hintUsed: false,
-                        tebakan:0,
-                        numberRed:Math.floor(Math.random() * 255) + 1,
-                        numberGreen:Math.floor(Math.random() * 255) + 1,
-                        numberBlue:Math.floor(Math.random() * 255) + 1
-                    }
-                )
-            }
-            else{
-                alert("tebakan salah");
-            }
-            }
-            
-        
     }
 
-    restart(){
+    answerCheck() {
+        this.state.tebakan++;
+        this.state.totalTebakan++;
+        var total;
+        var no;
+        var skorsoal;
+
+        // var penampung;
+        // var g;
+
+        //jika jawaban benar
+        if (this.state.redVal == this.state.numberRed && this.state.greenVal == this.state.numberGreen && this.state.blueVal == this.state.numberBlue) {
+            if (this.state.tebakan >= 5)
+                this.state.guessMultiplier = 1;
+            else if (this.state.tebakan < 5)
+                this.state.guessMultiplier = 5 - this.state.tebakan;
+            skorsoal = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
+            console.debug('hintmul:'+this.state.hintMultiplier);
+            console.debug('guessmul:'+this.state.guessMultiplier);
+            console.debug('sisawaktu:'+this.state.count);
+            console.debug('skorsoalini'+skorsoal);
+            total = this.state.skor + skorsoal;
+            console.debug('finalscore:'+total);
+            no = this.state.nomor + 1;
+            console.debug('nomorsoalberhasil'+no);
+            this.setState(
+                this.state = {
+                    skor: total,
+                    count: this.batas,
+                    nomor: no,
+                    redVal: 255,
+                    greenVal: 255,
+                    blueVal: 255,
+                    hint: '',
+                    hintMultiplier: 1,
+                    guessMultiplier: 0,
+                    // skorPenampung: 0,
+                    hintUsed: false,
+                    tebakan: 0,
+                    numberRed: Math.floor(Math.random() * 255) + 1,
+                    numberGreen: Math.floor(Math.random() * 255) + 1,
+                    numberBlue: Math.floor(Math.random() * 255) + 1
+                }
+            )
+            console.debug(this.state.numberRed);
+            console.debug(this.state.numberGreen);
+            console.debug(this.state.numberBlue);
+        }
+        //jika jawaban salah
+        else {
+            alert("Wrong color mix, try again " + global.activeuser + " :)");
+        }
+
+        // // jika button guess dipencet >=5 dalam sebuah soal (nyoba jawab ke 5x dst.)
+        // if (this.state.tebakan >= 5) {
+        //     //jika jawaban benar
+        //     if (this.state.redVal == this.state.numberRed && this.state.greenVal == this.state.numberGreen && this.state.blueVal == this.state.numberBlue) {
+        //         //guessmultiplier jadi ==1
+        //         this.setState(
+        //             this.state = {
+        //                 guessMultiplier: 1,
+        //             }
+        //         )
+        //         //penampung = skor untuk soal saat itu
+        //         penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
+        //         //isi state skorpenampung dengan skor soal saat itu
+        //         this.state.skorPenampung = penampung;
+        //         //var total = state skor ditambah skor barusan
+        //         total = this.state.skor + this.state.skorPenampung.toFixed(0);
+        //         //var nomor = state nomor +1
+        //         no = this.state.nomor + 1;
+        //         this.setState(
+        //             this.state = {
+        //                 // skorPenampung: penampung,
+        //                 skor: total,
+        //                 count: this.batas,
+        //                 nomor: no,
+        //                 redVal: 255,
+        //                 greenVal: 255,
+        //                 blueVal: 255,
+        //                 hint: '',
+        //                 skorPenampung: 0,
+        //                 hintMultiplier: 1,
+        //                 guessMultiplier: 0,
+        //                 hintUsed: false,
+        //                 tebakan: 0,
+        //                 numberRed: Math.floor(Math.random() * 255) + 1,
+        //                 numberGreen: Math.floor(Math.random() * 255) + 1,
+        //                 numberBlue: Math.floor(Math.random() * 255) + 1
+        //             }
+        //         )
+        //         console.debug(this.state.numberRed);
+        //         console.debug(this.state.numberGreen);
+        //         console.debug(this.state.numberBlue);
+        //     }
+        //     else {
+        //         alert("Wrong color mix, try again " + global.activeuser + " :)");
+        //     }
+        // }
+        // // nyoba jawab 1-4x dalam sebuah soal
+        // else {
+        //     //jika jawaban benar
+        //     if (this.state.redVal == this.state.numberRed && this.state.greenVal == this.state.numberGreen && this.state.blueVal == this.state.numberBlue) {
+        //         this.state.guessMultiplier = 5 - this.state.tebakan;
+        //         penampung = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
+        //         this.state.skorPenampung = penampung;
+        //         total = this.state.skor + this.state.skorPenampung;
+        //         no = this.state.nomor + 1;
+        //         this.setState(
+        //             this.state = {
+
+        //                 skor: total,
+        //                 count: this.batas,
+        //                 nomor: no,
+        //                 redVal: 255,
+        //                 greenVal: 255,
+        //                 blueVal: 255,
+        //                 hint: '',
+        //                 hintMultiplier: 1,
+        //                 guessMultiplier: 0,
+        //                 skorPenampung: 0,
+        //                 hintUsed: false,
+        //                 tebakan: 0,
+        //                 numberRed: Math.floor(Math.random() * 255) + 1,
+        //                 numberGreen: Math.floor(Math.random() * 255) + 1,
+        //                 numberBlue: Math.floor(Math.random() * 255) + 1
+        //             }
+        //         )
+        //         console.debug(this.state.numberRed);
+        //         console.debug(this.state.numberGreen);
+        //         console.debug(this.state.numberBlue);
+        //     }
+        //     else {
+        //         alert("Wrong color mix, try again " + global.activeuser + " :)");
+        //     }
+        // }
+    }
+
+    restart() {
         this.setState(
             this.state = {
                 count: this.batas,
-                time:0,
+                time: 0,
                 redVal: 255,
                 greenVal: 255,
                 blueVal: 255,
                 hint: '',
-                hintMultiplier:1,
-                guessMultiplier:0,
+                hintMultiplier: 1,
+                guessMultiplier: 0,
                 result: false,
                 hintUsed: false,
-                skorPenampung:0,
-                skor:0,
-                tebakan:0,
-                totalTebakan:0,
-                numberRed:Math.floor(Math.random() * 255) + 1,
-                numberGreen:Math.floor(Math.random() * 255) + 1,
-                numberBlue:Math.floor(Math.random() * 255) + 1 ,
-                nomor:0,
-                hintuse:0,
-                average:0,
-                
+                // skorPenampung: 0,
+                skor: 0,
+                tebakan: 0,
+                totalTebakan: 0,
+                numberRed: Math.floor(Math.random() * 255) + 1,
+                numberGreen: Math.floor(Math.random() * 255) + 1,
+                numberBlue: Math.floor(Math.random() * 255) + 1,
+                nomor: 0,
+                hintuse: 0,
+                average: 0,
+
             }
         )
     }
 
     showHint() {
-        var u = this.state.hintuse +1;
+        var u = this.state.hintuse + 1;
         this.setState(
             this.state = {
                 hintUsed: true,
                 count: (this.state.count / 2),
-                hint: "Hint : " + 'red('+this.state.numberRed+','+this.state.numberGreen+','+this.state.numberBlue+')',
+                hint: "Hint : " + 'red(' + this.state.numberRed + ',' + this.state.numberGreen + ',' + this.state.numberBlue + ')',
                 //+','+this.state.numberBlue+','+this.state.numberBlue
                 //ambil salah satu colorVal dari state soal
                 //disini nanti juga setskornya diminus
-                hintMultiplier:0.5,
-                hintuse:u
+                hintMultiplier: 0.5,
+                hintuse: u
             }
         )
     }
@@ -195,7 +255,7 @@ export default class ColorMixer extends React.Component {
                     <View style={style.linear_progress}>
                         <LinearProgress variant='determinate'
                             value={1 - (this.state.count / this.batas)}
-                            color={"rgb("+this.state.numberRed+","+this.state.numberGreen+","+this.state.numberBlue+")"}
+                            color={"rgb(" + this.state.numberRed + "," + this.state.numberGreen + "," + this.state.numberBlue + ")"}
                             //warna e mengikuti soal
                             style={style.linear_progress} />
                         <Text style={style.text_linear_progress}>{toHHMMSS(this.state.count)}</Text>
@@ -220,7 +280,7 @@ export default class ColorMixer extends React.Component {
                                 width: 100,
                                 height: 100,
                                 margin: 10,
-                                backgroundColor: "rgb("+this.state.numberRed+","+this.state.numberGreen+","+this.state.numberBlue+")",
+                                backgroundColor: "rgb(" + this.state.numberRed + "," + this.state.numberGreen + "," + this.state.numberBlue + ")",
                                 alignSelf: 'center',
                                 borderColor: '#000',
                                 borderWidth: 2,
@@ -348,24 +408,24 @@ export default class ColorMixer extends React.Component {
 
                             ></Slider>
                         </View>
-                        <View style={{
-                        bottom: 20,
-                          }}>
+
+                        {/* ---End Blue Slider--- */}
+                    </View>
+                    {/* ---End Container Slider--- */}
+                    <View style={{
+                        bottom: 40,
+                    }}>
                         <Button
                             title="Guess Color"
                             buttonStyle={style.btn_style}
                             containerStyle={style.btn_container}
-                            onPress={()=>{this.answerCheck()}}
-                            />
+                            onPress={() => { this.answerCheck() }}
+                        />
                     </View>
-                        {/* ---End Blue Slider--- */}
-                    </View>
-                    {/* ---End Container Slider--- */}
-
                 </View>
                 //#endregion
             )
-        } else if (this.state.count == 0 && !this.state.result) {
+        } else if (this.state.count <= 0 && !this.state.result) {
             return (
                 //#region GAMEOVER
                 <Dialog
@@ -384,6 +444,11 @@ export default class ColorMixer extends React.Component {
             )
         } else if (this.state.result == true) {
             this.props.navigation.setOptions({ title: 'Result' })
+            var avegues=0;
+            if(this.state.nomor==0)
+                avegues=(this.state.totalTebakan / 1).toFixed(2);
+            else if(this.state.totalTebakan!=0 || this.state.nomor!=0)
+                avegues=(this.state.totalTebakan / this.state.nomor).toFixed(2);
             return (
                 <View style={style.container}>
                     <Text style={style.text_judul}>
@@ -392,7 +457,7 @@ export default class ColorMixer extends React.Component {
                     <Text style={style.text_body}>
                         Total time played : {toHHMMSS(this.state.time)}{'\n'}{'\n'}
                         Color mixed : {this.state.nomor}{'\n'}{'\n'}
-                        Average guesses : {this.state.totalTebakan / this.state.nomor}{'\n'}{'\n'}
+                        Average guesses : {avegues}{'\n'}{'\n'}
                         Hints used : {this.state.hintuse}
                     </Text>
                     <View style={{
@@ -405,18 +470,18 @@ export default class ColorMixer extends React.Component {
                         <Button title={'HIGH SCORES'}
                             buttonStyle={style.btn_style}
                             containerStyle={{ width: '42%', margin: 5 }}
-                            onPress={()=>this.props.navigation.navigate("HighScore")}
-                            />
+                            onPress={() => this.props.navigation.navigate("HighScore")}
+                        />
 
                         <Button title={'PLAY AGAIN'}
                             buttonStyle={style.btn_style}
                             containerStyle={{ width: '42%', margin: 5 }}
-                            onPress={()=>this.restart()} />
+                            onPress={() => this.restart()} />
                     </View>
                     <Button title={'MAIN MENU'}
                         buttonStyle={style.btn_style}
-                        containerStyle={style.btn_container} 
-                        onPress={()=>this.props.navigation.navigate("Home")}/>
+                        containerStyle={style.btn_container}
+                        onPress={() => this.props.navigation.navigate("Home")} />
                 </View>
             )
         }
