@@ -5,18 +5,9 @@ import style from "../assets/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HighScore({ navigation }) {
-    // check = async() => {
-    //     try {
-    //         const value = await AsyncStorage.getItem('result');
-    //         console.debug(value);
-    //         return value != null ? JSON.parse(value) : "halo";
-            
-    //         } catch (e) {
-    //             // saving error
-    //         }
-    // }
     return (
-        // console.debug(this.check().then(item)),
+        console.log(check[0]),
+        console.log('halo'),
         <View style={style.container}>
             <Text style={style.text_judul}>High Scores</Text>
             <Card
@@ -121,4 +112,17 @@ export default function HighScore({ navigation }) {
         </View>
     );
     
+}
+
+ const check = async() => {
+    try {
+        const
+        value= await AsyncStorage.getItem('result');
+        console.log('berhasil membaca');
+        return value != null ? value : "";
+        
+        } catch (e) {
+            // saving error
+            console.log(e);
+        }
 }

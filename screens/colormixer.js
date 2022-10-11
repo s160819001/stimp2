@@ -49,7 +49,7 @@ export default class ColorMixer extends React.Component {
 
     doSave = async(username,skor) => {
         try {
-            var item = [[username,skor]]
+            var item = {name:username,score:skor};
             await AsyncStorage.setItem('result', JSON.stringify(item));
             alert('data berhasil disimpan');
             this.setState({
