@@ -16,7 +16,7 @@ export default class ColorMixer extends React.Component {
             count: this.batas,
             time: 0,
             oneSecInterval: setInterval(() => {
-                if (this.state.count != 0) {
+                if (this.state.count >= 0) {
                     this.setState(
                         this.state = {
                             count: this.state.count - 1,
@@ -53,8 +53,20 @@ export default class ColorMixer extends React.Component {
     doSave = async (username, skor) => {
         try {
             // var item = { name: username, score: skor };
-            let item=[[username,skor]];
-            await AsyncStorage.setItem('result', JSON.stringify(item));
+            const storage = await AsyncStorage.getItem('result');
+            if (storage != null) {
+                console.debug('storage:' + storage);
+                let arr = JSON.parse(storage);
+                console.debug('arr:' + arr);
+                let item = [username, skor];
+                console.debug('item:' + item);
+                arr.push(item);
+                await AsyncStorage.setItem('result', JSON.stringify(arr));
+            } else if (storage == null) {
+                let item = [[username, skor]];
+                console.debug('item:' + item);
+                await AsyncStorage.setItem('result', JSON.stringify(item));
+            }
             alert('data berhasil disimpan');
             this.setState({
                 result: true
@@ -83,14 +95,14 @@ export default class ColorMixer extends React.Component {
             else if (this.state.tebakan < 5)
                 this.state.guessMultiplier = 5 - this.state.tebakan;
             skorsoal = this.state.hintMultiplier * this.state.guessMultiplier * this.state.count;
-            console.debug('hintmul:'+this.state.hintMultiplier);
-            console.debug('guessmul:'+this.state.guessMultiplier);
-            console.debug('sisawaktu:'+this.state.count);
-            console.debug('skorsoalini'+skorsoal);
+            console.debug('hintmul:' + this.state.hintMultiplier);
+            console.debug('guessmul:' + this.state.guessMultiplier);
+            console.debug('sisawaktu:' + this.state.count);
+            console.debug('skorsoalini' + skorsoal);
             total = this.state.skor + skorsoal;
-            console.debug('finalscore:'+total);
+            console.debug('finalscore:' + total);
             no = this.state.nomor + 1;
-            console.debug('nomorsoalberhasil'+no);
+            console.debug('nomorsoalberhasil' + no);
             this.setState(
                 this.state = {
                     skor: total,
@@ -237,7 +249,7 @@ export default class ColorMixer extends React.Component {
         this.setState(
             this.state = {
                 hintUsed: true,
-                count: (this.state.count / 2),
+                count: (this.state.count / 2).toFixed(0),
                 hint: "Hint : " + 'red(' + this.state.numberRed + ',' + this.state.numberGreen + ',' + this.state.numberBlue + ')',
                 //+','+this.state.numberBlue+','+this.state.numberBlue
                 //ambil salah satu colorVal dari state soal
@@ -249,7 +261,8 @@ export default class ColorMixer extends React.Component {
     }
 
     render() {
-        if (this.state.count != 0) {
+        console.debug('time:' + this.state.count);
+        if (this.state.count > 0) {
             return (
                 //#region GAMEON
                 <View style={style.container}>
@@ -437,7 +450,7 @@ export default class ColorMixer extends React.Component {
                     <Text>Good Game Great Eyes!</Text>
                     <Dialog.Actions>
                         <Dialog.Button title="SHOW RESULT" onPress={() =>
-                            this.doSave(global.activeuser,this.state.skor)
+                            this.doSave(global.activeuser, this.state.skor)
                         } />
                     </Dialog.Actions>
                 </Dialog>
@@ -445,11 +458,11 @@ export default class ColorMixer extends React.Component {
             )
         } else if (this.state.result == true) {
             this.props.navigation.setOptions({ title: 'Result' })
-            var avegues=0;
-            if(this.state.nomor==0)
-                avegues=(this.state.totalTebakan / 1).toFixed(2);
-            else if(this.state.totalTebakan!=0 || this.state.nomor!=0)
-                avegues=(this.state.totalTebakan / this.state.nomor).toFixed(2);
+            var avegues = 0;
+            if (this.state.nomor == 0)
+                avegues = (this.state.totalTebakan / 1).toFixed(2);
+            else if (this.state.totalTebakan != 0 || this.state.nomor != 0)
+                avegues = (this.state.totalTebakan / this.state.nomor).toFixed(2);
             return (
                 <View style={style.container}>
                     <Text style={style.text_judul}>

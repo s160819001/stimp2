@@ -9,15 +9,55 @@ export default class HighScore extends React.Component {
     constructor(props) {
         super(props);
         this.highscore();
+
+        this.state = {
+            rank1:0,
+            rank2:0,
+            rank3:0,
+            name1:'',
+            name2:'',
+            name3:''
+        }
     }
 
     highscore = async () => {
         try {
+            // await AsyncStorage.removeItem('result');
           const value = await AsyncStorage.getItem('result');
-          console.debug(value);
-          alert(value);
-          if (value !== null) {
-            return value;
+          let storage = JSON.parse(value);
+          let arrSkor=[];
+          for(let i=0; i<storage.length;i++){
+            arrSkor.push(storage[i][1]);
+          }
+          arrSkor.sort(function(a, b){return b - a});
+          this.setState(
+            this.state = {
+                rank1:arrSkor[0],
+                rank2:arrSkor[1],
+                rank3:arrSkor[2]
+            }
+            )
+          for(let i=0; i<storage.length;i++){
+            if(storage[i][1]==this.state.rank1){
+                console.debug(storage[i][1]);
+                this.setState(
+                    this.state = {
+                name1:storage[i][0]
+                    }
+                )
+            }else if(storage[i][1]==this.state.rank2){
+                this.setState(
+                    this.state = {
+                name2:storage[i][0]
+                    }
+                )
+            }else if(storage[i][1]==this.state.rank3){
+                this.setState(
+                    this.state = {
+                name3:storage[i][0]
+                    }
+                )
+            }
           }
         } catch (e) {
           // error reading value
@@ -49,7 +89,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                Nama
+                                {this.state.name1}
                             </Text>
                             <Text style={{
                                 fontSize: 28,
@@ -57,7 +97,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                Score
+                                {this.state.rank1}
                             </Text>
                         </View>
                     </View>
@@ -82,7 +122,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                Nama
+                                {this.state.name2}
                             </Text>
                             <Text style={{
                                 fontSize: 28,
@@ -90,7 +130,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                Score
+                                {this.state.rank2}
                             </Text>
                         </View>
                     </View>
@@ -115,7 +155,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                Nama
+                                {this.state.name3}
                             </Text>
                             <Text style={{
                                 fontSize: 28,
@@ -123,7 +163,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                Score
+                                {this.state.rank3}
                             </Text>
                         </View>
                     </View>
