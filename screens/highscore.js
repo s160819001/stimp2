@@ -1,10 +1,22 @@
-import { View, } from "react-native";
+import { View, NativeModules} from "react-native";
 import { Text, Card, Image } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HighScore({ navigation }) {
+    // check = async() => {
+    //     try {
+    //         const value = await AsyncStorage.getItem('result');
+    //         console.debug(value);
+    //         return value != null ? JSON.parse(value) : "halo";
+            
+    //         } catch (e) {
+    //             // saving error
+    //         }
+    // }
     return (
+        // console.debug(this.check().then(item)),
         <View style={style.container}>
             <Text style={style.text_judul}>High Scores</Text>
             <Card
@@ -108,4 +120,5 @@ export default function HighScore({ navigation }) {
             </Card>
         </View>
     );
+    
 }

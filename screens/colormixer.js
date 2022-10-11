@@ -1,7 +1,8 @@
-import { View, } from "react-native";
+import { View, NativeModules} from "react-native";
 import { LinearProgress, Text, Button, Slider, Dialog } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class ColorMixer extends React.Component {
     batas = 255;
@@ -41,8 +42,24 @@ export default class ColorMixer extends React.Component {
             numberBlue:Math.floor(Math.random() * 255) + 1 ,
             nomor:0,
             hintuse:0,
-            average:0
+            average:0,
+            username: global.activeuser
         }
+    }
+
+    doSave = async(username,skor) => {
+        try {
+            var item = [[username,skor]]
+            await AsyncStorage.setItem('result', JSON.stringify(item));
+            alert('data berhasil disimpan');
+            this.setState({
+                result: true
+                
+            })
+
+            } catch (e) {
+                // saving error
+            }
     }
 
     answerCheck(){
@@ -126,7 +143,33 @@ export default class ColorMixer extends React.Component {
         
     }
 
-
+    restart(){
+        this.setState(
+            this.state = {
+                count: this.batas,
+                time:0,
+                redVal: 255,
+                greenVal: 255,
+                blueVal: 255,
+                hint: '',
+                hintMultiplier:1,
+                guessMultiplier:0,
+                result: false,
+                hintUsed: false,
+                skorPenampung:0,
+                skor:0,
+                tebakan:0,
+                totalTebakan:0,
+                numberRed:Math.floor(Math.random() * 255) + 1,
+                numberGreen:Math.floor(Math.random() * 255) + 1,
+                numberBlue:Math.floor(Math.random() * 255) + 1 ,
+                nomor:0,
+                hintuse:0,
+                average:0,
+                
+            }
+        )
+    }
 
     showHint() {
         var u = this.state.hintuse +1;
@@ -145,12 +188,6 @@ export default class ColorMixer extends React.Component {
     }
 
     render() {
-
-        console.log(this.state.result);
-        console.log(this.state.skor);
-        console.log(this.state.hintMultiplier);
-        console.log(this.state.tebakan);
-        console.log(this.state.skorPenampung);
         if (this.state.count != 0) {
             return (
                 //#region GAMEON
@@ -338,10 +375,9 @@ export default class ColorMixer extends React.Component {
                     <Dialog.Title title="GAME OVER" />
                     <Text>Good Game Great Eyes!</Text>
                     <Dialog.Actions>
-                        <Dialog.Button title="SHOW RESULT" onPress={() => this.setState({
-                            result: true
-                            
-                        })} />
+                        <Dialog.Button title="SHOW RESULT" onPress={() =>
+                            this.doSave()
+                        } />
                     </Dialog.Actions>
                 </Dialog>
                 //#endregion
@@ -368,15 +404,19 @@ export default class ColorMixer extends React.Component {
 
                         <Button title={'HIGH SCORES'}
                             buttonStyle={style.btn_style}
-                            containerStyle={{ width: '42%', margin: 5 }} />
+                            containerStyle={{ width: '42%', margin: 5 }}
+                            onPress={()=>this.props.navigation.navigate("HighScore")}
+                            />
 
                         <Button title={'PLAY AGAIN'}
                             buttonStyle={style.btn_style}
-                            containerStyle={{ width: '42%', margin: 5 }} />
+                            containerStyle={{ width: '42%', margin: 5 }}
+                            onPress={()=>this.restart()} />
                     </View>
                     <Button title={'MAIN MENU'}
                         buttonStyle={style.btn_style}
-                        containerStyle={style.btn_container} />
+                        containerStyle={style.btn_container} 
+                        onPress={()=>this.props.navigation.navigate("Home")}/>
                 </View>
             )
         }
