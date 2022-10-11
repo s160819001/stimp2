@@ -52,7 +52,8 @@ export default class ColorMixer extends React.Component {
 
     doSave = async (username, skor) => {
         try {
-            var item = { name: username, score: skor };
+            // var item = { name: username, score: skor };
+            let item=[[username,skor]];
             await AsyncStorage.setItem('result', JSON.stringify(item));
             alert('data berhasil disimpan');
             this.setState({
@@ -425,7 +426,7 @@ export default class ColorMixer extends React.Component {
                 </View>
                 //#endregion
             )
-        } else if (this.state.count <= 0 && !this.state.result) {
+        } if (this.state.count <= 0 && !this.state.result) {
             return (
                 //#region GAMEOVER
                 <Dialog
@@ -436,7 +437,7 @@ export default class ColorMixer extends React.Component {
                     <Text>Good Game Great Eyes!</Text>
                     <Dialog.Actions>
                         <Dialog.Button title="SHOW RESULT" onPress={() =>
-                            this.doSave()
+                            this.doSave(global.activeuser,this.state.skor)
                         } />
                     </Dialog.Actions>
                 </Dialog>
