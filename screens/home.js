@@ -1,9 +1,10 @@
 import { View, } from "react-native";
-import { Text, Button,} from '@rneui/base';
+import { Text, Button, } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
+import * as Animatable from 'react-native-animatable';
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
     return (
         <View style={style.container}>
             <Text style={style.text_judul}>Welcome, {global.activeuser}  !</Text>
@@ -19,11 +20,17 @@ export default function Home({navigation}) {
                 {'\n'}
                 See if you can reach top 5!
             </Text>
-            <Button 
-            title="Play Game" 
-            onPress={() => navigation.navigate("ColorMixer")}
-            buttonStyle={style.btn_style}
-            containerStyle={style.btn_container} />
+            <Animatable.View
+                animation="tada"
+                iterationCount={'infinite'}
+            >
+                <Button
+                    title="Play Game"
+                    onPress={() => navigation.navigate("ColorMixer")}
+                    buttonStyle={style.btn_style}
+                    containerStyle={style.btn_container} />
+            </Animatable.View>
+
         </View>
     );
 }

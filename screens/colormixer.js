@@ -3,6 +3,7 @@ import { LinearProgress, Text, Button, Slider, Dialog } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import rgbHex from 'rgb-hex';
 
 export default class ColorMixer extends React.Component {
     batas = 30;
@@ -250,7 +251,8 @@ export default class ColorMixer extends React.Component {
             this.state = {
                 hintUsed: true,
                 count: (this.state.count / 2).toFixed(0),
-                hint: "Hint : " + 'red(' + this.state.numberRed + ',' + this.state.numberGreen + ',' + this.state.numberBlue + ')',
+                hint: "Hint : #"+ rgbHex(this.state.numberRed,this.state.numberGreen,this.state.numberBlue),
+                // hint: "Hint : " + 'red(' + this.state.numberRed + ',' + this.state.numberGreen + ',' + this.state.numberBlue + ')',
                 //+','+this.state.numberBlue+','+this.state.numberBlue
                 //ambil salah satu colorVal dari state soal
                 //disini nanti juga setskornya diminus

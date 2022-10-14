@@ -1,8 +1,9 @@
-import { View, NativeModules} from "react-native";
+import { View, Animated} from "react-native";
 import { Text, Card, Image } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Animatable from 'react-native-animatable';
 
 export default class HighScore extends React.Component {
 
@@ -16,9 +17,26 @@ export default class HighScore extends React.Component {
             rank3:0,
             name1:'',
             name2:'',
-            name3:''
-        }
+            name3:'',
+            // fadeAnim: new Animated.Value(0)
+        };
+        
+              
+            
     }
+
+    // fadeIn = () => {
+    //     // Will change fadeAnim value to 1 in 5 seconds
+    //     Animated.timing(this.state.fadeAnim, {
+    //       toValue: 1,
+    //       duration: 5000,
+    //       useNativeDriver: true
+    //     }).start();
+    //   };
+
+    // componentDidMount() {
+    //     this.fadeIn();
+    // }
 
     highscore = async () => {
         try {
@@ -70,6 +88,9 @@ export default class HighScore extends React.Component {
             // console.log('halo'),
             <View style={style.container}>
                 <Text style={style.text_judul}>High Scores</Text>
+                <Animatable.View
+                    animation="fadeInDown"
+                >
                 <Card
                     containerStyle={{
                         borderRadius: 10,
@@ -103,40 +124,50 @@ export default class HighScore extends React.Component {
                     </View>
     
                 </Card>
-                <Card
-                    containerStyle={{
-                        borderRadius: 10,
-                        backgroundColor: '#f0952a',
-                    }}>
-                    <View style={{
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        alignContent:'center',
-                    }}>
-                        <Image source={require('../assets/images/rank2.png')}
-                        style={style.img}/> 
-                        <View style={{}}>
-                            <Text style={{
-                                fontSize: 28,
-                                fontWeight: 'bold',
-                                color: '#f1dd95',
-                                margin: 5,
-                            }}>
-                                {this.state.name2}
-                            </Text>
-                            <Text style={{
-                                fontSize: 28,
-                                fontWeight: 'bold',
-                                color: '#f1dd95',
-                                margin: 5,
-                            }}>
-                                {this.state.rank2}
-                            </Text>
-                        </View>
+                </Animatable.View>
+                <Animatable.View
+                    animation="fadeInDown"
+                    delay={500}
+                >
+                    <Card
+                containerStyle={{
+                    borderRadius: 10,
+                    backgroundColor: '#f0952a',
+                }}>
+                <View style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    alignContent:'center',
+                }}>
+                    <Image source={require('../assets/images/rank2.png')}
+                    style={style.img}/> 
+                    <View style={{}}>
+                        <Text style={{
+                            fontSize: 28,
+                            fontWeight: 'bold',
+                            color: '#f1dd95',
+                            margin: 5,
+                        }}>
+                            {this.state.name2}
+                        </Text>
+                        <Text style={{
+                            fontSize: 28,
+                            fontWeight: 'bold',
+                            color: '#f1dd95',
+                            margin: 5,
+                        }}>
+                            {this.state.rank2}
+                        </Text>
                     </View>
-    
-                </Card>
-                <Card
+                </View>
+
+                    </Card>
+                </Animatable.View>
+                <Animatable.View
+                    animation="fadeInDown"
+                    delay={1000}
+                >
+                    <Card
                     containerStyle={{
                         borderRadius: 10,
                         backgroundColor: '#f0952a',
@@ -169,6 +200,7 @@ export default class HighScore extends React.Component {
                     </View>
     
                 </Card>
+                </Animatable.View>
             </View>
         );
     }

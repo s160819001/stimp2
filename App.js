@@ -64,6 +64,13 @@ export default class App extends Component {
             },
             headerTintColor: '#fff',
             // drawerItemStyle: { height: 0 }
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="home"
+                size={size}
+                color={focused ? 'blue' : 'gray'}
+              />
+            )
           }} />
         <Drawer.Screen
           name="HighScore"
