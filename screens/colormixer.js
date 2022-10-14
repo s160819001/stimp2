@@ -16,12 +16,20 @@ export default class ColorMixer extends React.Component {
         this.state = {
             count: this.batas,
             time: 0,
+            hintUsed: true,
             oneSecInterval: setInterval(() => {
                 if (this.state.count >= 0) {
                     this.setState(
                         this.state = {
                             count: this.state.count - 1,
                             time: this.state.time + 1
+                        }
+                    )
+                }
+                if(this.state.skor>=100 && this.state.hintR==false||this.state.skor>=100 && this.state.hintG==false||this.state.skor>=100 && this.state.hintB==false){
+                    this.setState(
+                        this.state = {
+                            hintUsed:false
                         }
                     )
                 }
@@ -33,7 +41,6 @@ export default class ColorMixer extends React.Component {
             hintMultiplier: 1,
             guessMultiplier: 0,
             result: false,
-            hintUsed: false,
             // skorPenampung: 0,
             skor: 0,
             tebakan: 0,
@@ -41,6 +48,9 @@ export default class ColorMixer extends React.Component {
             numberRed: Math.floor(Math.random() * 255) + 1,
             numberGreen: Math.floor(Math.random() * 255) + 1,
             numberBlue: Math.floor(Math.random() * 255) + 1,
+            hintR:false,
+            hintG:false,
+            hintB:false,
             nomor: 0,
             hintuse: 0,
             average: 0,
@@ -245,13 +255,14 @@ export default class ColorMixer extends React.Component {
         )
     }
 
-    showHint() {
+    buyHint() {
         var u = this.state.hintuse + 1;
+        this.state.skor=this.state.skor-100;
         this.setState(
             this.state = {
                 hintUsed: true,
                 count: (this.state.count / 2).toFixed(0),
-                hint: "Hint : #"+ rgbHex(this.state.numberRed,this.state.numberGreen,this.state.numberBlue),
+                hint: "Hint : #" + rgbHex(this.state.numberRed, this.state.numberGreen, this.state.numberBlue),
                 // hint: "Hint : " + 'red(' + this.state.numberRed + ',' + this.state.numberGreen + ',' + this.state.numberBlue + ')',
                 //+','+this.state.numberBlue+','+this.state.numberBlue
                 //ambil salah satu colorVal dari state soal
@@ -277,6 +288,8 @@ export default class ColorMixer extends React.Component {
                         <Text style={style.text_linear_progress}>{toHHMMSS(this.state.count)}</Text>
                     </View>
                     <Text style={style.text_score}>Score: {this.state.skor}</Text>
+
+                    {/* ---Start Soal Area--- */}
                     <View style={{
                         flexDirection: 'row',
                         flexWrap: 'wrap',
@@ -322,6 +335,8 @@ export default class ColorMixer extends React.Component {
                             }}></View>
                         </View>
                     </View>
+                    {/* ---End Soal Area--- */}
+                    {/* ---Start Hint Area--- */}
                     <View>
                         <Text style={{
                             fontSize: 18,
@@ -330,12 +345,13 @@ export default class ColorMixer extends React.Component {
                             alignSelf: 'center',
                         }}>{this.state.hint}</Text>
                         <Button
-                            title="Show Hint"
-                            onPress={() => { this.showHint() }}
+                            title="Buy Hint"
+                            onPress={() => { this.buyHint() }}
                             buttonStyle={style.btn_style}
                             containerStyle={style.btn_container}
                             disabled={this.state.hintUsed} />
                     </View>
+                    {/* ---End Hint Area--- */}
                     {/* ---Start Container Slider--- */}
                     <View style={style.container}>
                         {/* ---Start Red Slider--- */}
