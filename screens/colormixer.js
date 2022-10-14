@@ -18,10 +18,10 @@ export default class ColorMixer extends React.Component {
             count: this.batas,
             time: 0,
             hintUsed: true,
+            hintR: false,
+            hintG: false,
+            hintB: false,
             oneSecInterval: setInterval(() => {
-                console.debug('hintR:' + this.state.hintR);
-                console.debug('hintG:' + this.state.hintG);
-                console.debug('hintB:' + this.state.hintB);
                 // jika waktu masih ada dan confirm dialog give up tidak tampil waktu hitung mundur dan total waktu main tambah 1
                 if (this.state.count >= 0 && !global.confirmgiveup && !this.state.result) {
                     this.setState(
@@ -32,13 +32,31 @@ export default class ColorMixer extends React.Component {
                     )
                 }
                 // jika skor di state >=100 dan hintR/G/B salah satunya belum muncul
-                if (this.state.skor >= 100 && this.state.hintR == false || this.state.skor >= 100 && this.state.hintG == false || this.state.skor >= 100 && this.state.hintB == false) {
+                if (this.state.skor >= 100 && this.state.hintR == false) {
+                    this.setState(
+                        this.state = {
+                            hintUsed: false
+                        }
+                    )
+                } else if (this.state.skor >= 100 && this.state.hintG == false) {
+                    this.setState(
+                        this.state = {
+                            hintUsed: false
+                        }
+                    )
+                } else if (this.state.skor >= 100 && this.state.hintB == false) {
                     this.setState(
                         this.state = {
                             hintUsed: false
                         }
                     )
                 } else if (this.state.hintR == true && this.state.hintG == true && this.state.hintB == true) {
+                    this.setState(
+                        this.state = {
+                            hintUsed: true
+                        }
+                    )
+                } else if (this.state.skor < 100) {
                     this.setState(
                         this.state = {
                             hintUsed: true
@@ -63,15 +81,12 @@ export default class ColorMixer extends React.Component {
             //tampilan result di set false
             result: false,
             // skorPenampung: 0,
-            skor: 100,
+            skor: 1000,
             tebakan: 0,
             totalTebakan: 0,
             numberRed: Math.floor(Math.random() * 255) + 1,
             numberGreen: Math.floor(Math.random() * 255) + 1,
             numberBlue: Math.floor(Math.random() * 255) + 1,
-            hintR: false,
-            hintG: false,
-            hintB: false,
             nomor: 0,
             hintuse: 0,
             average: 0,
@@ -138,6 +153,9 @@ export default class ColorMixer extends React.Component {
                 this.state = {
                     skor: total,
                     count: this.batas,
+                    hintR: false,
+                    hintG: false,
+                    hintB: false,
                     nomor: no,
                     redVal: 255,
                     greenVal: 255,
@@ -251,6 +269,9 @@ export default class ColorMixer extends React.Component {
         this.setState(
             this.state = {
                 count: this.batas,
+                hintR: false,
+                hintG: false,
+                hintB: false,
                 time: 0,
                 redVal: 255,
                 greenVal: 255,
@@ -259,7 +280,7 @@ export default class ColorMixer extends React.Component {
                 hintMultiplier: 1,
                 guessMultiplier: 0,
                 result: false,
-                hintUsed: false,
+                hintUsed: true,
                 // skorPenampung: 0,
                 skor: 0,
                 tebakan: 0,

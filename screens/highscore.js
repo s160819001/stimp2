@@ -111,7 +111,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                {this.state.name1}
+                                {this.state.name1 ?this.state.name1:this.state.none}
                             </Text>
                             <Text style={{
                                 fontSize: 26,
@@ -119,7 +119,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                {this.state.rank1 ?this.state.rank1:this.state.none}
+                                {this.state.rank1}
                             </Text>
                         </View>
                     </View>
@@ -149,7 +149,7 @@ export default class HighScore extends React.Component {
                             color: '#f1dd95',
                             margin: 5,
                         }}>
-                            {this.state.name2}
+                            {this.state.name2?this.state.name2:this.state.none}
                         </Text>
                         <Text style={{
                             fontSize: 26,
@@ -157,7 +157,7 @@ export default class HighScore extends React.Component {
                             color: '#f1dd95',
                             margin: 5,
                         }}>
-                            {this.state.rank2 ?this.state.rank2:this.state.none}
+                            {this.state.name2?this.state.rank2:''}
                         </Text>
                     </View>
                 </View>
@@ -187,7 +187,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                {this.state.name3}
+                                {this.state.name3?this.state.name3:this.state.none}
                             </Text>
                             <Text style={{
                                 fontSize: 26,
@@ -195,7 +195,7 @@ export default class HighScore extends React.Component {
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                {this.state.rank3 ?this.state.rank3:this.state.none}
+                                {this.state.name3?this.state.rank3:''}
                             </Text>
                         </View>
                     </View>
