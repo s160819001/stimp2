@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import rgbHex from 'rgb-hex';
 
 export default class ColorMixer extends React.Component {
-    batas = 30;
+    batas = 255;
     // qRed = Math.floor(Math.random() * 255) + 1;
     // qBlue = Math.floor(Math.random() * 255) + 1;
     // qGreen = Math.floor(Math.random() * 255) + 1;
@@ -19,6 +19,9 @@ export default class ColorMixer extends React.Component {
             time: 0,
             hintUsed: true,
             oneSecInterval: setInterval(() => {
+                console.debug('hintR:' + this.state.hintR);
+                console.debug('hintG:' + this.state.hintG);
+                console.debug('hintB:' + this.state.hintB);
                 // jika waktu masih ada dan confirm dialog give up tidak tampil waktu hitung mundur dan total waktu main tambah 1
                 if (this.state.count >= 0 && !global.confirmgiveup && !this.state.result) {
                     this.setState(
@@ -35,12 +38,18 @@ export default class ColorMixer extends React.Component {
                             hintUsed: false
                         }
                     )
+                } else if (this.state.hintR == true && this.state.hintG == true && this.state.hintB == true) {
+                    this.setState(
+                        this.state = {
+                            hintUsed: true
+                        }
+                    )
                 }
                 //jika confirm dialog giveup tampil, setstate agar rendernya jalan
-                if(global.confirmgiveup){
+                if (global.confirmgiveup) {
                     this.setState(
-                        this.state={
-                            confirmgiveup:true
+                        this.state = {
+                            confirmgiveup: true
                         }
                     )
                 }
@@ -54,7 +63,7 @@ export default class ColorMixer extends React.Component {
             //tampilan result di set false
             result: false,
             // skorPenampung: 0,
-            skor: 0,
+            skor: 100,
             tebakan: 0,
             totalTebakan: 0,
             numberRed: Math.floor(Math.random() * 255) + 1,
@@ -266,47 +275,47 @@ export default class ColorMixer extends React.Component {
         )
     }
 
+    cekHint(acak) {
+        console.debug(acak);
+        var hasilacak = acak[Math.floor(Math.random() * acak.length)];
+        console.debug(hasilacak);
+        switch (hasilacak) {
+            case this.state.numberRed:
+                console.debug('masuk red');
+                if (!this.state.hintR) {
+                    this.state.hintR = true;
+                    this.state.hint += ' ' + this.state.numberRed;
+                } else {
+                    this.cekHint([this.state.numberRed, this.state.numberGreen, this.state.numberBlue]);
+                }
+                break;
+            case this.state.numberGreen:
+                console.debug('masuk green');
+                if (!this.state.hintG) {
+                    this.state.hintG = true;
+                    this.state.hint += ' ' + this.state.numberGreen;
+                } else {
+                    this.cekHint([this.state.numberRed, this.state.numberGreen, this.state.numberBlue]);
+                }
+                break;
+            case this.state.numberBlue:
+                console.debug('masuk blue');
+                if (!this.state.hintB) {
+                    this.state.hintB = true;
+                    this.state.hint += ' ' + this.state.numberBlue;
+                } else {
+                    this.cekHint([this.state.numberRed, this.state.numberGreen, this.state.numberBlue]);
+                }
+                break;
+        }
+    }
+
     buyHint() {
         var u = this.state.hintuse + 1;
         this.state.skor = this.state.skor - 100;
 
-        var acak = [this.state.numberRed, this.state.numberGreen, this.state.numberBlue];
-        switch (acak[Math.floor(Math.random() * acak)]) {
-            case this.state.numberRed:
+        this.cekHint([this.state.numberRed, this.state.numberGreen, this.state.numberBlue]);
 
-        }
-
-        // 
-        // var hasilacak=acak[Math.floor(Math.random()*acak)];
-
-        // if(hasilacak==this.state.numberRed){
-
-        // }
-
-        var acak = Math.floor(Math.random() * 2);
-        if (acak == 0) {
-            if (this.state.hintR == false) {
-                this.setState(
-                    this.state = {
-                        hint: this.state.numberRed
-                    }
-                )
-            } else {
-                acak = Math.floor(Math.random() * 2);
-            }
-        } else if (acak == 1) {
-            this.setState(
-                this.state = {
-                    hint: this.state.numberRed
-                }
-            )
-        } else if (acak == 3) {
-            this.setState(
-                this.state = {
-                    hint: this.state.numberRed
-                }
-            )
-        }
         this.setState(
             this.state = {
                 // hintUsed: true,
@@ -527,7 +536,7 @@ export default class ColorMixer extends React.Component {
             )
         }
         // jika give up dan result tidak tampil, tampilkan dialog
-        else if (global.giveup==true && !this.state.result) {
+        else if (global.giveup == true && !this.state.result) {
             return (
                 //#region GAMEOVER
                 <Dialog
@@ -547,7 +556,7 @@ export default class ColorMixer extends React.Component {
         }
         // jika tampilan result true, tampilkan result
         else if (this.state.result == true) {
-            global.giveup=false;
+            global.giveup = false;
             this.props.navigation.setOptions({ title: 'Result' })
             var avegues = 0;
             if (this.state.nomor == 0)

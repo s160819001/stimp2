@@ -1,4 +1,4 @@
-import { View, Animated} from "react-native";
+import { View,ScrollView, Animated} from "react-native";
 import { Text, Card, Image } from '@rneui/base';
 import React from "react";
 import style from "../assets/style";
@@ -18,6 +18,7 @@ export default class HighScore extends React.Component {
             name1:'',
             name2:'',
             name3:'',
+            none:'"This rank still available for you, '+global.activeuser+'"',
             // fadeAnim: new Animated.Value(0)
         };
         
@@ -86,8 +87,8 @@ export default class HighScore extends React.Component {
         return (
             // console.log(check[0]),
             // console.log('halo'),
-            <View style={style.container}>
-                <Text style={style.text_judul}>High Scores</Text>
+            <ScrollView style={style.container}>
+                {/* <Text style={style.text_judul}>High Scores</Text> */}
                 <Animatable.View
                     animation="fadeInDown"
                 >
@@ -105,7 +106,7 @@ export default class HighScore extends React.Component {
                         style={style.img}/> 
                         <View style={{}}>
                             <Text style={{
-                                fontSize: 28,
+                                fontSize: 22,
                                 fontWeight: 'bold',
                                 color: '#f1dd95',
                                 margin: 5,
@@ -113,12 +114,12 @@ export default class HighScore extends React.Component {
                                 {this.state.name1}
                             </Text>
                             <Text style={{
-                                fontSize: 28,
+                                fontSize: 26,
                                 fontWeight: 'bold',
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                {this.state.rank1}
+                                {this.state.rank1 ?this.state.rank1:this.state.none}
                             </Text>
                         </View>
                     </View>
@@ -143,7 +144,7 @@ export default class HighScore extends React.Component {
                     style={style.img}/> 
                     <View style={{}}>
                         <Text style={{
-                            fontSize: 28,
+                            fontSize: 22,
                             fontWeight: 'bold',
                             color: '#f1dd95',
                             margin: 5,
@@ -151,12 +152,12 @@ export default class HighScore extends React.Component {
                             {this.state.name2}
                         </Text>
                         <Text style={{
-                            fontSize: 28,
+                            fontSize: 26,
                             fontWeight: 'bold',
                             color: '#f1dd95',
                             margin: 5,
                         }}>
-                            {this.state.rank2}
+                            {this.state.rank2 ?this.state.rank2:this.state.none}
                         </Text>
                     </View>
                 </View>
@@ -181,7 +182,7 @@ export default class HighScore extends React.Component {
                         style={style.img}/> 
                         <View style={{}}>
                             <Text style={{
-                                fontSize: 28,
+                                fontSize: 22,
                                 fontWeight: 'bold',
                                 color: '#f1dd95',
                                 margin: 5,
@@ -189,19 +190,19 @@ export default class HighScore extends React.Component {
                                 {this.state.name3}
                             </Text>
                             <Text style={{
-                                fontSize: 28,
+                                fontSize: 26,
                                 fontWeight: 'bold',
                                 color: '#f1dd95',
                                 margin: 5,
                             }}>
-                                {this.state.rank3}
+                                {this.state.rank3 ?this.state.rank3:this.state.none}
                             </Text>
                         </View>
                     </View>
     
                 </Card>
                 </Animatable.View>
-            </View>
+            </ScrollView>
         );
     }
     

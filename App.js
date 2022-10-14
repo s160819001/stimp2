@@ -25,8 +25,8 @@ export default class App extends Component {
     this.state = {
       islogin: false
     }
-    global.giveup=false;
-    global.confirmgiveup=false;
+    global.giveup = false;
+    global.confirmgiveup = false;
 
     this.cekLogin().then((item) => {
       if (item != null) {
@@ -37,7 +37,7 @@ export default class App extends Component {
       }
     });
   }
-  
+
   cekLogin = async () => {
     try {
       const value = await AsyncStorage.getItem('username');
@@ -97,12 +97,12 @@ export default class App extends Component {
     )
   }
 
-  giveup(){
-    global.giveup=true;
-    global.confirmgiveup=false;
+  giveup() {
+    global.giveup = true;
+    global.confirmgiveup = false;
   }
-  cancelgiveup(){
-    global.confirmgiveup=false;
+  cancelgiveup() {
+    global.confirmgiveup = false;
   }
 
 
@@ -146,10 +146,10 @@ export default class App extends Component {
                             onPress: () => this.cancelgiveup(),
                             style: "cancel"
                           },
-                          { text: "OK", onPress:() => this.giveup()} 
+                          { text: "OK", onPress: () => this.giveup() }
                         ]
                       );
-                      global.confirmgiveup=true;
+                      global.confirmgiveup = true;
                     }}
                   />),
                 headerStyle: {
