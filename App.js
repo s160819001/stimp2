@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, NativeModules} from 'react-native';
+import { StyleSheet, Text, View, NativeModules, Alert } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+import { HeaderBackButton } from '@react-navigation/elements';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,6 +25,8 @@ export default class App extends Component {
     this.state = {
       islogin: false
     }
+    global.giveup=false;
+    global.confirmgiveup=false;
 
     this.cekLogin().then((item) => {
       if (item != null) {
@@ -34,7 +37,7 @@ export default class App extends Component {
       }
     });
   }
-
+  
   cekLogin = async () => {
     try {
       const value = await AsyncStorage.getItem('username');
@@ -94,6 +97,15 @@ export default class App extends Component {
     )
   }
 
+  giveup(){
+    global.giveup=true;
+    global.confirmgiveup=false;
+  }
+  cancelgiveup(){
+    global.confirmgiveup=false;
+  }
+
+
 
   render() {
     if (!this.state.islogin) {
@@ -121,6 +133,25 @@ export default class App extends Component {
               component={ColorMixer}
               options={{
                 title: 'Color Mixer',
+                headerLeft: (props) => (
+                  <HeaderBackButton
+                    {...props}
+                    onPress={() => {
+                      Alert.alert(
+                        "Warning",
+                        "Are you sure you want to give up?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => this.cancelgiveup(),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress:() => this.giveup()} 
+                        ]
+                      );
+                      global.confirmgiveup=true;
+                    }}
+                  />),
                 headerStyle: {
                   backgroundColor: '#917f54',
                 },
@@ -169,7 +200,7 @@ function CustomDrawerContent(props) {
         <Button
           buttonStyle={style.btn_style}
           containerStyle={style.btn_container}
-          onPress={() => {doLogout()}}>
+          onPress={() => { doLogout() }}>
           <Ionicons
             name="log-out"
             size='30'

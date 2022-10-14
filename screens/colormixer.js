@@ -11,6 +11,7 @@ export default class ColorMixer extends React.Component {
     // qBlue = Math.floor(Math.random() * 255) + 1;
     // qGreen = Math.floor(Math.random() * 255) + 1;
 
+
     constructor() {
         super();
         this.state = {
@@ -18,7 +19,8 @@ export default class ColorMixer extends React.Component {
             time: 0,
             hintUsed: true,
             oneSecInterval: setInterval(() => {
-                if (this.state.count >= 0) {
+                // jika waktu masih ada dan confirm dialog give up tidak tampil waktu hitung mundur dan total waktu main tambah 1
+                if (this.state.count >= 0 && !global.confirmgiveup && !this.state.result) {
                     this.setState(
                         this.state = {
                             count: this.state.count - 1,
@@ -26,10 +28,19 @@ export default class ColorMixer extends React.Component {
                         }
                     )
                 }
+                // jika skor di state >=100 dan hintR/G/B salah satunya belum muncul
                 if (this.state.skor >= 100 && this.state.hintR == false || this.state.skor >= 100 && this.state.hintG == false || this.state.skor >= 100 && this.state.hintB == false) {
                     this.setState(
                         this.state = {
                             hintUsed: false
+                        }
+                    )
+                }
+                //jika confirm dialog giveup tampil, setstate agar rendernya jalan
+                if(global.confirmgiveup){
+                    this.setState(
+                        this.state={
+                            confirmgiveup:true
                         }
                     )
                 }
@@ -40,6 +51,7 @@ export default class ColorMixer extends React.Component {
             hint: '',
             hintMultiplier: 1,
             guessMultiplier: 0,
+            //tampilan result di set false
             result: false,
             // skorPenampung: 0,
             skor: 0,
@@ -54,12 +66,11 @@ export default class ColorMixer extends React.Component {
             nomor: 0,
             hintuse: 0,
             average: 0,
-            username: global.activeuser
+            username: global.activeuser,
         }
-        console.debug(this.state.numberRed);
-        console.debug(this.state.numberGreen);
-        console.debug(this.state.numberBlue);
     }
+
+
 
     doSave = async (username, skor) => {
         try {
@@ -259,6 +270,19 @@ export default class ColorMixer extends React.Component {
         var u = this.state.hintuse + 1;
         this.state.skor = this.state.skor - 100;
 
+        var acak = [this.state.numberRed, this.state.numberGreen, this.state.numberBlue];
+        switch (acak[Math.floor(Math.random() * acak)]) {
+            case this.state.numberRed:
+
+        }
+
+        // 
+        // var hasilacak=acak[Math.floor(Math.random()*acak)];
+
+        // if(hasilacak==this.state.numberRed){
+
+        // }
+
         var acak = Math.floor(Math.random() * 2);
         if (acak == 0) {
             if (this.state.hintR == false) {
@@ -267,8 +291,8 @@ export default class ColorMixer extends React.Component {
                         hint: this.state.numberRed
                     }
                 )
-            } else{
-                acak= Math.floor(Math.random() * 2);
+            } else {
+                acak = Math.floor(Math.random() * 2);
             }
         } else if (acak == 1) {
             this.setState(
@@ -299,8 +323,8 @@ export default class ColorMixer extends React.Component {
     }
 
     render() {
-        console.debug('time:' + this.state.count);
-        if (this.state.count > 0) {
+        // jika waktu masih ada dan belum giveup tampilkan game
+        if (this.state.count > 0 && !global.giveup && !this.state.result) {
             return (
                 //#region GAMEON
                 <View style={style.container}>
@@ -482,7 +506,9 @@ export default class ColorMixer extends React.Component {
                 </View>
                 //#endregion
             )
-        } if (this.state.count <= 0 && !this.state.result) {
+        }
+        // jika waktu habis dan result tidak tampil, tampilkan dialog 
+        else if (this.state.count <= 0 && !this.state.result) {
             return (
                 //#region GAMEOVER
                 <Dialog
@@ -499,7 +525,29 @@ export default class ColorMixer extends React.Component {
                 </Dialog>
                 //#endregion
             )
-        } else if (this.state.result == true) {
+        }
+        // jika give up dan result tidak tampil, tampilkan dialog
+        else if (global.giveup==true && !this.state.result) {
+            return (
+                //#region GAMEOVER
+                <Dialog
+                    isVisible={true}
+                    overlayStyle={style.dialog}
+                >
+                    <Dialog.Title title="GAME OVER" />
+                    <Text>Good Game Great Eyes!</Text>
+                    <Dialog.Actions>
+                        <Dialog.Button title="SHOW RESULT" onPress={() =>
+                            this.doSave(global.activeuser, this.state.skor)
+                        } />
+                    </Dialog.Actions>
+                </Dialog>
+                //#endregion
+            )
+        }
+        // jika tampilan result true, tampilkan result
+        else if (this.state.result == true) {
+            global.giveup=false;
             this.props.navigation.setOptions({ title: 'Result' })
             var avegues = 0;
             if (this.state.nomor == 0)
