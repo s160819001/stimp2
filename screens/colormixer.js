@@ -26,10 +26,10 @@ export default class ColorMixer extends React.Component {
                         }
                     )
                 }
-                if(this.state.skor>=100 && this.state.hintR==false||this.state.skor>=100 && this.state.hintG==false||this.state.skor>=100 && this.state.hintB==false){
+                if (this.state.skor >= 100 && this.state.hintR == false || this.state.skor >= 100 && this.state.hintG == false || this.state.skor >= 100 && this.state.hintB == false) {
                     this.setState(
                         this.state = {
-                            hintUsed:false
+                            hintUsed: false
                         }
                     )
                 }
@@ -48,9 +48,9 @@ export default class ColorMixer extends React.Component {
             numberRed: Math.floor(Math.random() * 255) + 1,
             numberGreen: Math.floor(Math.random() * 255) + 1,
             numberBlue: Math.floor(Math.random() * 255) + 1,
-            hintR:false,
-            hintG:false,
-            hintB:false,
+            hintR: false,
+            hintG: false,
+            hintB: false,
             nomor: 0,
             hintuse: 0,
             average: 0,
@@ -257,12 +257,37 @@ export default class ColorMixer extends React.Component {
 
     buyHint() {
         var u = this.state.hintuse + 1;
-        this.state.skor=this.state.skor-100;
+        this.state.skor = this.state.skor - 100;
+
+        var acak = Math.floor(Math.random() * 2);
+        if (acak == 0) {
+            if (this.state.hintR == false) {
+                this.setState(
+                    this.state = {
+                        hint: this.state.numberRed
+                    }
+                )
+            } else{
+                acak= Math.floor(Math.random() * 2);
+            }
+        } else if (acak == 1) {
+            this.setState(
+                this.state = {
+                    hint: this.state.numberRed
+                }
+            )
+        } else if (acak == 3) {
+            this.setState(
+                this.state = {
+                    hint: this.state.numberRed
+                }
+            )
+        }
         this.setState(
             this.state = {
-                hintUsed: true,
+                // hintUsed: true,
                 count: (this.state.count / 2).toFixed(0),
-                hint: "Hint : #" + rgbHex(this.state.numberRed, this.state.numberGreen, this.state.numberBlue),
+                // hint: "Hint : #" + rgbHex(this.state.numberRed, this.state.numberGreen, this.state.numberBlue),
                 // hint: "Hint : " + 'red(' + this.state.numberRed + ',' + this.state.numberGreen + ',' + this.state.numberBlue + ')',
                 //+','+this.state.numberBlue+','+this.state.numberBlue
                 //ambil salah satu colorVal dari state soal
