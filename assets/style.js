@@ -4,7 +4,7 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f1dd96',
-        // alignItems: 'center',
+        alignItems: 'center',
     },
     text_judul: {
         fontSize: 28,

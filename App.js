@@ -15,6 +15,7 @@ import Home from './screens/home';
 import ColorMixer from './screens/colormixer';
 import HighScore from './screens/highscore';
 import Login from './screens/login';
+import Register from './screens/register';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -40,7 +41,7 @@ export default class App extends Component {
 
   cekLogin = async () => {
     try {
-      const value = await AsyncStorage.getItem('username');
+      const value = await AsyncStorage.getItem('namadepan');
       global.activeuser = value;
       console.debug(value);
       //  alert(value);
@@ -112,6 +113,14 @@ export default class App extends Component {
       return (
         <NavigationContainer><Stack.Navigator>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Create Account" component={Register}
+            options={{
+              title: '',
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: '#f1dd96',
+              }
+            }} />
         </Stack.Navigator>
         </NavigationContainer>);
     } else {
@@ -168,7 +177,7 @@ export default class App extends Component {
 
 const doLogout = async () => {
   try {
-    await AsyncStorage.removeItem('username')
+    await AsyncStorage.clear()
     alert('Logged out');
     NativeModules.DevSettings.reload();
   } catch (e) {
